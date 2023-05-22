@@ -17,6 +17,13 @@ class QuestionScreen extends StatefulWidget {
 class _QuestionScreenState extends State<QuestionScreen> {
   var currentQuestionIndex = 0;
 
+  answerQuestion(String selectedAnswer) {
+    widget.onSelectAnswer(selectedAnswer);
+    setState(() {
+      currentQuestionIndex++;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final currentQuestion = questions[currentQuestionIndex];
@@ -25,9 +32,11 @@ class _QuestionScreenState extends State<QuestionScreen> {
       child: Container(
         margin: const EdgeInsets.all(20),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'Question content',
+              currentQuestion.text,
               style: GoogleFonts.lato(
                 color: const Color.fromARGB(255, 201, 153, 251),
                 fontSize: 24,
@@ -38,6 +47,28 @@ class _QuestionScreenState extends State<QuestionScreen> {
             const SizedBox(
               height: 30,
             ),
+            ...currentQuestion.getShuffledAnswer().map(
+                  (answer) => ElevatedButton(
+                    onPressed: () {
+                      answerQuestion(answer);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 40,
+                      ),
+                      backgroundColor: const Color.fromARGB(255, 32, 11, 95),
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                    ),
+                    child: Text(
+                      answer,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
           ],
         ),
       ),
