@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:quiz_app/screen/question_identifier.dart';
 
 class SummaryItem extends StatelessWidget {
   final Map<String, Object> itemData;
@@ -8,6 +9,8 @@ class SummaryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isCorrectQuestion =
+        itemData['user_answer'] == itemData['correct_answer'];
     return Padding(
       padding: const EdgeInsets.symmetric(
         vertical: 10,
@@ -15,10 +18,12 @@ class SummaryItem extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Gen other widget
-
+          QuestionIdentifier(
+            questionIndex: itemData['question_index'] as int,
+            isCorrectQuestion: isCorrectQuestion,
+          ),
           const SizedBox(
-            height: 5,
+            width: 10,
           ),
           Expanded(
             child: Column(
